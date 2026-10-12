@@ -57,8 +57,9 @@ La portada es siempre la primera página del manual. Genera siempre que sea posi
 
 - Busca los recursos de marca en el proyecto (por ejemplo, `public/images`, `public/img`, `resources/images`, `assets` o carpetas similares), con nombres como `logo`, `escudo`, `isotipo`, `marca`, `simbolo`, `brand`, en formatos `.svg`, `.png`, `.jpg` o `.webp`.
 - Prefiere el `.svg` o la imagen de mayor resolución. Inserta sin deformar.
-- Centra siempre los logotipos y escudos en la portada.
-- Cuando existan dos o más (por ejemplo, un logo y un escudo), todos deben quedar centrados y con el mismo tamaño entre sí: ajusta cada uno a una altura (o ancho) uniforme para igualarlos. No recortes, no estires ni deformes para igualarlos; escala proporcionalmente el que sea más grande para que coincida con el menor, o fija una altura común legible.
+- Alinea siempre los logotipos y escudos en la portada horizontalmente, uno al lado del otro en una sola fila, con una separación breve entre ellos. No los apiles en vertical.
+- La fila de logotipos y escudos queda centrada como un grupo. Cuando existan dos o más (por ejemplo, un logo y un escudo), todos deben tener el mismo tamaño entre sí: fija una altura común (por ejemplo `height=1.5cm`) o escala proporcionalmente el mayor para igualar al menor. No recortes, no estires ni deformes para igualarlos.
+- Para lograr la fila horizontal y centrada, colócalos en un mismo párrafo (misma línea, sin línea en blanco entre ellos) y aplícale el estilo de figura centrado de la plantilla, o usa una tabla sin bordes con una celda por logotipo y todas las celdas centradas. Verifica que en el DOCX queden lado a lado, no apilados.
 - Si hay varios candidatos ambiguos, pide al usuario cuál usar. Si no encuentras ninguno, pide los archivos al usuario o deja un marcador en la portada y anótalo en pendientes.
 - Nunca inventes, dibujes ni generes logotipos falsos.
 
@@ -96,6 +97,7 @@ Reglas de diseño:
   Usa un recuadro por mensaje y solo cuando aporte; no satures el documento.
 - **Tablas**: la primera fila es el encabezado (la plantilla la colorea y la repite si la tabla cruza de página) y las filas alternan sombreado. Alinea el texto a la izquierda y los números a la derecha.
 - **Figuras y capturas**: centradas, con leyenda breve debajo y numerada ("Figura 3. ..."), sin deformar la imagen. Usa el estilo de leyenda de la plantilla.
+- **Esquinas redondeadas en las capturas**: todas las capturas deben mostrarse con las esquinas redondeadas con un radio de unos 20 px, de forma uniforme en todo el manual. Word no redondea las imágenes por sí solo, así que el redondeo debe quedar grabado en el archivo de imagen antes de insertarlo (recorta las esquinas con transparencia o con el color de fondo del documento) usando una herramienta ya disponible. Si no hay herramienta disponible, inserta la captura sin redondear y anótalo en pendientes; no la simules como redondeada.
 - **Nombres de la interfaz y código**: los nombres de botones, campos y menús van entre comillas; el código, las rutas y los valores van en `monospace` (estilo Verbatim).
 - **Saltos de página**: comienza cada sección principal (nivel 2) en página nueva solo si el manual es largo; nunca dejes un título huérfano.
 - **Tabla de contenido**: una sola, nativa de Word (campo de índice generado desde los estilos de título de los encabezados), insertada por el conversor con `--toc --toc-depth=3` y con el estilo de la plantilla. No la generes manualmente ni como lista estática.
@@ -114,7 +116,7 @@ Reglas de diseño:
 9. Genera el manual fuera de la ruta del proyecto, nunca dentro de su árbol de directorios. Usa como carpeta de salida `manual-usuario-<nombre-proyecto>`, ubicada como hermana del directorio raíz del proyecto (por ejemplo, `..\manual-usuario-<nombre-proyecto>` en Windows o `../manual-usuario-<nombre-proyecto>` en Linux/macOS). `<nombre-proyecto>` es el nombre de la carpeta raíz del proyecto o, si existe, el nombre del paquete de `composer.json`. Si el usuario indica otra carpeta, respétala siempre que esté fuera del proyecto. No generes archivos adicionales fuera de esa carpeta.
 10. Antes de documentar, pregunta solo por los datos esenciales que falten: público objetivo, módulo/flujo que se documentará, entorno autorizado, datos de login (si el flujo requiere autenticación), formato final y carpeta de salida (solo si el usuario quiere una distinta a la predeterminada). Si la solicitud ya los aclara, continúa sin preguntas innecesarias.
 11. Antes de crear, comprueba si ya existe un manual previo en la carpeta de salida. Si existe, retómalo y actualiza solo las partes desactualizadas (actualización incremental). Si no existe, créalo desde cero. No sobrescribas un manual vigente sin cambios.
-12. La portada es siempre la primera página del manual. Genera siempre que sea posible una portada con el nombre del sistema, sus logotipos y escudos oficiales (centrados y con el mismo tamaño entre sí cuando haya más de uno), el módulo, la versión, la revisión, la fecha y el público objetivo. Usa solo logotipos reales del proyecto; si no hay, pídelos o deja un marcador y anótalo en pendientes.
+12. La portada es siempre la primera página del manual. Genera siempre que sea posible una portada con el nombre del sistema, sus logotipos y escudos oficiales (centrados, en una sola fila horizontal uno al lado del otro y con el mismo tamaño entre sí cuando haya más de uno), el módulo, la versión, la revisión, la fecha y el público objetivo. La portada usa distintos tamaños de fuente para dar jerarquía (nombre de la plataforma en el mayor, módulo en uno intermedio, datos menores más pequeños): no la dejes con un solo tamaño uniforme. Usa solo logotipos reales del proyecto; si no hay, pídelos o deja un marcador y anótalo en pendientes.
 13. Asigna automáticamente la versión y la revisión según "Versiones y revisiones", y mantén el historial de revisiones. La versión y la revisión deben aparecer en la portada y en el encabezado, y coincidir entre sí.
 14. Incluye una sola tabla de contenido (índice) que liste cada sección y cada funcionalidad con su numeración y en el orden real del documento, con encabezados jerárquicos consistentes. Solo debe existir una tabla de contenido por manual; no la dupliques ni la repitas por sección. En DOCX, la tabla de contenido debe ser nativa de Word: un campo de índice generado automáticamente desde los estilos de título aplicados a los encabezados; nunca la generes manualmente ni como lista estática. Verifica que el índice coincida con el contenido final.
 15. El DOCX debe indicar el nombre de la plataforma correspondiente: en la portada, en el encabezado del documento y en las propiedades del archivo (título). Usa el nombre oficial de la plataforma; no un nombre genérico.
@@ -166,7 +168,7 @@ Si el usuario proporciona una URL de un entorno de pruebas y existe Playwright M
 3. Navega por el flujo de manera no destructiva.
 4. Registra nombres reales de menús, botones, campos y mensajes.
 5. Captura pantallas reales en los puntos que ayuden a comprender cada paso.
-6. Guarda las imágenes en una carpeta `images/` dentro de la carpeta de salida, con nombres descriptivos, por ejemplo `01-listado-tramites.png`.
+6. Guarda las imágenes en una carpeta `images/` dentro de la carpeta de salida, con nombres descriptivos, por ejemplo `01-listado-tramites.png`, y con las esquinas redondeadas (~20 px).
 7. Revisa que no se vean secretos ni datos personales reales. Si no se pueden ocultar con seguridad, no incluyas la captura.
 8. No simules que una operación se completó. Si el flujo requiere guardar, enviar, aprobar, pagar, eliminar o cambiar estados, detente antes de la acción y solicita autorización explícita para probarla.
 
@@ -182,15 +184,13 @@ Usa esta estructura, adaptándola al tamaño del módulo:
 
 ### Portada (primera página)
 
-La portada es siempre la primera página del DOCX:
+La portada es siempre la primera página del DOCX. Usa distintos tamaños de fuente para dar jerarquía visual (nunca un solo tamaño uniforme), apoyándote en los estilos de la plantilla:
 
-- Nombre de la plataforma o sistema, completo y oficial.
-- Nombre de la institución, si aplica.
-- Logotipos y escudos oficiales del sistema (uno o varios), centrados y, cuando haya más de uno, con el mismo tamaño entre sí (ver "Portada y logotipos").
-- Nombre del módulo documentado.
-- Versión y Revisión (ver "Versiones y revisiones").
-- Fecha de revisión.
-- Público objetivo.
+- Nombre de la plataforma o sistema, completo y oficial, en el mayor tamaño (estilo Título, centrado).
+- Logotipos y escudos oficiales del sistema (uno o varios), centrados, alineados horizontalmente uno al lado del otro en una sola fila y, cuando haya más de uno, con el mismo tamaño entre sí (ver "Portada y logotipos").
+- Nombre del módulo documentado, en tamaño intermedio y algo menor que el nombre de la plataforma (estilo Subtítulo, centrado).
+- Nombre de la institución y público objetivo, en un tamaño menor (estilo Autor).
+- Versión y Revisión (ver "Versiones y revisiones"), fecha de revisión y estado de verificación, en el tamaño menor (estilo Fecha).
 
 # Manual de usuario: [nombre de la plataforma]
 
@@ -285,7 +285,9 @@ Antes de entregar, verifica:
 - En modo actualización, solo cambiaron las secciones afectadas; el resto conserva el contenido y las capturas válidas previas.
 - En modo actualización, los cambios realizados quedaron listados para el usuario.
 - La portada incluye los logotipos/escudos reales del sistema o, si no había, un marcador anotado en pendientes.
-- Los logotipos y escudos de la portada están centrados y, cuando hay más de uno, tienen el mismo tamaño entre sí y no están deformados.
+- Los logotipos y escudos de la portada están centrados, alineados horizontalmente uno al lado del otro en una sola fila y, cuando hay más de uno, tienen el mismo tamaño entre sí y no están deformados.
+- La portada usa distintos tamaños de fuente (nombre de la plataforma mayor, módulo intermedio, datos menores más pequeños), no un tamaño uniforme.
+- Todas las capturas tienen las esquinas redondeadas (~20 px), de forma uniforme.
 - El nombre de la plataforma aparece en la portada, en el encabezado y en las propiedades del DOCX, con el nombre oficial.
 - La versión y la revisión coinciden entre portada, encabezado e historial de revisiones, y siguen el esquema de "Versiones y revisiones".
 - La tabla de contenido lista todas las secciones y funcionalidades con su numeración correcta, en el orden del documento, sin entradas de más ni de menos.
@@ -299,7 +301,8 @@ Antes de entregar, verifica:
 - Genera el archivo final `manual-usuario-<nombre-proyecto>.docx` en la carpeta de salida. El DOCX es el entregable obligatorio. Mantén la salida fuera de la ruta del proyecto (carpeta por defecto `manual-usuario-<nombre-proyecto>`, hermana del directorio raíz). Nunca escribas la salida dentro del proyecto.
 - Conserva el `manual-usuario-<nombre-proyecto>.md` fuente en la misma carpeta de salida. En modo actualización, edita ese archivo en su lugar y regenera el DOCX a partir de él.
 - Si hay capturas reales, guárdalas en `images/` dentro de esa carpeta e insértalas en el DOCX, numeradas y con leyenda breve.
-- Embebe en el DOCX los logotipos y escudos de la portada; guárdalos también en `images/` si el Markdown debe referenciarlos con rutas relativas. No alteres su contenido ni su proporción. Centra los logotipos y escudos y, cuando haya más de uno, dales el mismo tamaño entre sí. La portada debe quedar como la primera página del DOCX.
+- Embebe en el DOCX los logotipos y escudos de la portada; guárdalos también en `images/` si el Markdown debe referenciarlos con rutas relativas. No alteres su contenido ni su proporción. Centra los logotipos y escudos, alinéalos horizontalmente uno al lado del otro en una sola fila y, cuando haya más de uno, dales el mismo tamaño entre sí. La portada debe quedar como la primera página del DOCX.
+- Redondea las esquinas de todas las capturas (~20 px) en el archivo de imagen antes de insertarlas, con una herramienta ya disponible, y verifica el resultado en el DOCX.
 - Convierte el Markdown a DOCX con una herramienta ya instalada. Prefiere Pandoc con la plantilla de estilo de la skill:
   `pandoc manual-usuario-<nombre-proyecto>.md --reference-doc="<ruta-skill>/assets/reference.docx" --toc --toc-depth=3 --metadata title="Manual de usuario - [plataforma]" -o manual-usuario-<nombre-proyecto>.docx`
   La opción `--reference-doc` aplica el diseño (tipografía, colores, títulos, tablas, recuadros y pie de página). `--toc --toc-depth=3` inserta la tabla de contenido nativa de Word (campo generado desde los estilos de título); no la sustituyas por una lista manual. `--metadata title` fija el nombre de la plataforma en las propiedades del documento. Si solo hay LibreOffice (`libreoffice --headless --convert-to docx manual-usuario-<nombre-proyecto>.md`), úsalo como respaldo e indica al usuario que el diseño de la plantilla y la tabla de contenido nativa requieren Pandoc. Verifica que `manual-usuario-<nombre-proyecto>.docx` exista, no esté vacío y contenga una sola tabla de contenido nativa (campo de índice actualizable), no una lista manual. No instales herramientas por tu cuenta.
