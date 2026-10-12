@@ -56,19 +56,24 @@ Todo manual lleva un número de versión, un número de revisión y un historial
 La portada es siempre la primera página del manual. Genera siempre que sea posible una portada como primera página del documento (sección "Portada" de la fase 4). Incluye los logotipos y escudos oficiales del sistema, obtenidos del propio proyecto.
 
 - Busca los recursos de marca en el proyecto (por ejemplo, `public/images`, `public/img`, `resources/images`, `assets` o carpetas similares), con nombres como `logo`, `escudo`, `isotipo`, `marca`, `simbolo`, `brand`, en formatos `.svg`, `.png`, `.jpg` o `.webp`.
-- Prefiere el `.svg` o la imagen de mayor resolución. Inserta sin deformar y con tamaño legible.
+- Prefiere el `.svg` o la imagen de mayor resolución. Inserta sin deformar.
+- Centra siempre los logotipos y escudos en la portada.
+- Cuando existan dos o más (por ejemplo, un logo y un escudo), todos deben quedar centrados y con el mismo tamaño entre sí: ajusta cada uno a una altura (o ancho) uniforme para igualarlos. No recortes, no estires ni deformes para igualarlos; escala proporcionalmente el que sea más grande para que coincida con el menor, o fija una altura común legible.
 - Si hay varios candidatos ambiguos, pide al usuario cuál usar. Si no encuentras ninguno, pide los archivos al usuario o deja un marcador en la portada y anótalo en pendientes.
 - Nunca inventes, dibujes ni generes logotipos falsos.
 
 ## Tabla de contenido
 
-El manual incluye una tabla de contenido (índice) que lista cada sección y cada funcionalidad documentada, con su numeración. Solo debe existir una tabla de contenido por manual: no dupliques el índice, no agregues un índice por sección ni repitas el índice dentro del DOCX ni en el encabezado.
+El manual incluye una tabla de contenido (índice) que lista cada sección y cada funcionalidad documentada, con su numeración. En el DOCX debe ser una tabla de contenido nativa de Word, generada desde los estilos de título de tus encabezados, y nunca una lista escrita manualmente. Solo debe existir una tabla de contenido por manual: no dupliques el índice, no agregues un índice por sección ni repitas el índice dentro del DOCX ni en el encabezado.
 
 - Usa una jerarquía de encabezados consistente: el título general es el nivel 1 (`#`), las secciones usan nivel 2 (`##`) numerado, y las funcionalidades y subsecciones usan nivel 3 (`###`) numerado (por ejemplo, `### 4.1 Registrar una inspección`).
 - Da a cada funcionalidad o procedimiento su propio encabezado con un título específico y descriptivo, no genérico, para que aparezca de forma identificable en el índice.
 - Ordena el índice según el orden real del documento y ajusta la profundidad para incluir todos los niveles que el manual use.
-- En Markdown, escribe la tabla de contenido como lista con enlaces a los encabezados (anclas), después de la portada y antes de la sección 1.
-- En DOCX, genera el índice real con la opción de tabla de contenido del conversor (por ejemplo, `pandoc --toc --toc-depth=3`) o con el campo de índice de Word/LibreOffice. Prefiere el índice navegable generado por el conversor sobre una lista estática.
+- En Markdown, escribe la fuente de la tabla de contenido como lista con enlaces a los encabezados (anclas), después de la portada y antes de la sección 1. Esa lista es solo fuente intermedia; no es la tabla de contenido del entregable.
+- En DOCX, la tabla de contenido debe ser nativa de Word: un campo de índice que Word genera y actualiza automáticamente a partir de los estilos de título aplicados a tus encabezados. Nunca la generes manualmente ni como lista estática de texto.
+  - Asigna los estilos de título de la plantilla a cada encabezado (nivel 1 = Título 1, nivel 2 = Título 2, nivel 3 = Título 3). Un encabezado sin estilo de título no aparece en el índice nativo.
+  - En Pandoc, `--toc --toc-depth=3` inserta ese campo de índice nativo y navegable. Como respaldo, en Word/LibreOffice inserta el campo de tabla de contenido vinculado a los estilos de encabezado y actualízalo.
+  - No escribas el índice como párrafos o viñetas "a mano" dentro del DOCX: quedaría desactualizado y sin navegación.
 - El índice debe reflejar el contenido final: no incluyas entradas de secciones inexistentes ni omitas secciones presentes. Verifícalo justo antes de entregar.
 
 ## Diseño y formato visual
@@ -93,7 +98,7 @@ Reglas de diseño:
 - **Figuras y capturas**: centradas, con leyenda breve debajo y numerada ("Figura 3. ..."), sin deformar la imagen. Usa el estilo de leyenda de la plantilla.
 - **Nombres de la interfaz y código**: los nombres de botones, campos y menús van entre comillas; el código, las rutas y los valores van en `monospace` (estilo Verbatim).
 - **Saltos de página**: comienza cada sección principal (nivel 2) en página nueva solo si el manual es largo; nunca dejes un título huérfano.
-- **Tabla de contenido**: una sola, generada por el conversor (`--toc --toc-depth=3`) y con el estilo de la plantilla.
+- **Tabla de contenido**: una sola, nativa de Word (campo de índice generado desde los estilos de título de los encabezados), insertada por el conversor con `--toc --toc-depth=3` y con el estilo de la plantilla. No la generes manualmente ni como lista estática.
 - **Consistencia**: mismo aspecto en todo el documento. No mezcles estilos, colores ni tamaños distintos entre secciones.
 
 ## Reglas obligatorias
@@ -109,9 +114,9 @@ Reglas de diseño:
 9. Genera el manual fuera de la ruta del proyecto, nunca dentro de su árbol de directorios. Usa como carpeta de salida `manual-usuario-<nombre-proyecto>`, ubicada como hermana del directorio raíz del proyecto (por ejemplo, `..\manual-usuario-<nombre-proyecto>` en Windows o `../manual-usuario-<nombre-proyecto>` en Linux/macOS). `<nombre-proyecto>` es el nombre de la carpeta raíz del proyecto o, si existe, el nombre del paquete de `composer.json`. Si el usuario indica otra carpeta, respétala siempre que esté fuera del proyecto. No generes archivos adicionales fuera de esa carpeta.
 10. Antes de documentar, pregunta solo por los datos esenciales que falten: público objetivo, módulo/flujo que se documentará, entorno autorizado, datos de login (si el flujo requiere autenticación), formato final y carpeta de salida (solo si el usuario quiere una distinta a la predeterminada). Si la solicitud ya los aclara, continúa sin preguntas innecesarias.
 11. Antes de crear, comprueba si ya existe un manual previo en la carpeta de salida. Si existe, retómalo y actualiza solo las partes desactualizadas (actualización incremental). Si no existe, créalo desde cero. No sobrescribas un manual vigente sin cambios.
-12. La portada es siempre la primera página del manual. Genera siempre que sea posible una portada con el nombre del sistema, sus logotipos y escudos oficiales, el módulo, la versión, la revisión, la fecha y el público objetivo. Usa solo logotipos reales del proyecto; si no hay, pídelos o deja un marcador y anótalo en pendientes.
+12. La portada es siempre la primera página del manual. Genera siempre que sea posible una portada con el nombre del sistema, sus logotipos y escudos oficiales (centrados y con el mismo tamaño entre sí cuando haya más de uno), el módulo, la versión, la revisión, la fecha y el público objetivo. Usa solo logotipos reales del proyecto; si no hay, pídelos o deja un marcador y anótalo en pendientes.
 13. Asigna automáticamente la versión y la revisión según "Versiones y revisiones", y mantén el historial de revisiones. La versión y la revisión deben aparecer en la portada y en el encabezado, y coincidir entre sí.
-14. Incluye una sola tabla de contenido (índice) que liste cada sección y cada funcionalidad con su numeración y en el orden real del documento, con encabezados jerárquicos consistentes. Solo debe existir una tabla de contenido por manual; no la dupliques ni la repitas por sección. En DOCX, usa el índice navegable del conversor cuando esté disponible. Verifica que el índice coincida con el contenido final.
+14. Incluye una sola tabla de contenido (índice) que liste cada sección y cada funcionalidad con su numeración y en el orden real del documento, con encabezados jerárquicos consistentes. Solo debe existir una tabla de contenido por manual; no la dupliques ni la repitas por sección. En DOCX, la tabla de contenido debe ser nativa de Word: un campo de índice generado automáticamente desde los estilos de título aplicados a los encabezados; nunca la generes manualmente ni como lista estática. Verifica que el índice coincida con el contenido final.
 15. El DOCX debe indicar el nombre de la plataforma correspondiente: en la portada, en el encabezado del documento y en las propiedades del archivo (título). Usa el nombre oficial de la plataforma; no un nombre genérico.
 16. Redacta el manual en español. Solo si el módulo documentado está en inglés, redacta en inglés. No mezcles idiomas dentro del mismo manual ni traduzcas nombres de la interfaz que estén en otro idioma.
 17. El documento generado se llama siempre `manual-usuario-<nombre-proyecto>`: el archivo fuente `manual-usuario-<nombre-proyecto>.md` y el entregable `manual-usuario-<nombre-proyecto>.docx`. Usa ese nombre exacto dentro de la carpeta de salida `manual-usuario-<nombre-proyecto>`; no uses nombres genéricos como `manual.md` ni `manual.docx`.
@@ -181,7 +186,7 @@ La portada es siempre la primera página del DOCX:
 
 - Nombre de la plataforma o sistema, completo y oficial.
 - Nombre de la institución, si aplica.
-- Logotipos y escudos oficiales del sistema (uno o varios), centrados (ver "Portada y logotipos").
+- Logotipos y escudos oficiales del sistema (uno o varios), centrados y, cuando haya más de uno, con el mismo tamaño entre sí (ver "Portada y logotipos").
 - Nombre del módulo documentado.
 - Versión y Revisión (ver "Versiones y revisiones").
 - Fecha de revisión.
@@ -201,7 +206,7 @@ La portada es siempre la primera página del DOCX:
 Muestra siempre el nombre de la plataforma en la portada y en el encabezado del documento, además de en las propiedades del DOCX (ver Fase 6). No uses un nombre genérico si el nombre oficial es conocido.
 
 ## Tabla de contenido
-Lista navegable con la numeración de cada sección y de cada funcionalidad, en el orden real del documento (ver "Tabla de contenido"). Debe incluir todas las funcionalidades, no solo las secciones principales. Es la única tabla de contenido del manual: no la repitas ni agregues índices por sección.
+Lista navegable con la numeración de cada sección y de cada funcionalidad, en el orden real del documento (ver "Tabla de contenido"). Debe incluir todas las funcionalidades, no solo las secciones principales. Es la única tabla de contenido del manual: no la repitas ni agregues índices por sección. En DOCX debe ser nativa de Word (campo de índice generado desde los estilos de título), no una lista escrita a mano.
 
 ## 1. Objetivo
 Explica en lenguaje sencillo para qué sirve el módulo.
@@ -255,7 +260,7 @@ Tabla con fecha, versión, revisión y descripción breve de cada cambio. En mod
 - Numera las capturas en orden de aparición y añade una leyenda breve.
 - No expongas rutas internas, nombres de servidores, IP, stack traces ni detalles sensibles.
 - Incluye fecha de revisión, alcance y limitaciones.
-- Mantén una jerarquía de encabezados consistente (nivel 1: título; nivel 2: secciones; nivel 3: funcionalidades) y un título específico por funcionalidad, para que la tabla de contenido sea correcta y completa.
+- Mantén una jerarquía de encabezados consistente (nivel 1: título; nivel 2: secciones; nivel 3: funcionalidades) y un título específico por funcionalidad, para que la tabla de contenido nativa de Word se genere correctamente y quede completa.
 
 ## Fase 5: revisar calidad
 
@@ -269,6 +274,7 @@ Antes de entregar, verifica:
 - El documento generado se llama `manual-usuario-<nombre-proyecto>` (`.md` y `.docx`), no un nombre genérico.
 - La portada es la primera página del manual.
 - Existe una sola tabla de contenido por manual, sin índices duplicados ni repetidos por sección.
+- La tabla de contenido es nativa de Word (campo de índice generado a partir de los estilos de título de los encabezados), no una lista escrita manualmente ni un índice estático.
 - El manual está redactado en español, o en inglés solo si el módulo documentado está en inglés, sin mezclar idiomas.
 - No hay credenciales, secretos ni datos reales sensibles.
 - Las secciones pendientes están claramente marcadas.
@@ -279,6 +285,7 @@ Antes de entregar, verifica:
 - En modo actualización, solo cambiaron las secciones afectadas; el resto conserva el contenido y las capturas válidas previas.
 - En modo actualización, los cambios realizados quedaron listados para el usuario.
 - La portada incluye los logotipos/escudos reales del sistema o, si no había, un marcador anotado en pendientes.
+- Los logotipos y escudos de la portada están centrados y, cuando hay más de uno, tienen el mismo tamaño entre sí y no están deformados.
 - El nombre de la plataforma aparece en la portada, en el encabezado y en las propiedades del DOCX, con el nombre oficial.
 - La versión y la revisión coinciden entre portada, encabezado e historial de revisiones, y siguen el esquema de "Versiones y revisiones".
 - La tabla de contenido lista todas las secciones y funcionalidades con su numeración correcta, en el orden del documento, sin entradas de más ni de menos.
@@ -292,10 +299,10 @@ Antes de entregar, verifica:
 - Genera el archivo final `manual-usuario-<nombre-proyecto>.docx` en la carpeta de salida. El DOCX es el entregable obligatorio. Mantén la salida fuera de la ruta del proyecto (carpeta por defecto `manual-usuario-<nombre-proyecto>`, hermana del directorio raíz). Nunca escribas la salida dentro del proyecto.
 - Conserva el `manual-usuario-<nombre-proyecto>.md` fuente en la misma carpeta de salida. En modo actualización, edita ese archivo en su lugar y regenera el DOCX a partir de él.
 - Si hay capturas reales, guárdalas en `images/` dentro de esa carpeta e insértalas en el DOCX, numeradas y con leyenda breve.
-- Embebe en el DOCX los logotipos y escudos de la portada; guárdalos también en `images/` si el Markdown debe referenciarlos con rutas relativas. No alteres su contenido ni su proporción. La portada debe quedar como la primera página del DOCX.
+- Embebe en el DOCX los logotipos y escudos de la portada; guárdalos también en `images/` si el Markdown debe referenciarlos con rutas relativas. No alteres su contenido ni su proporción. Centra los logotipos y escudos y, cuando haya más de uno, dales el mismo tamaño entre sí. La portada debe quedar como la primera página del DOCX.
 - Convierte el Markdown a DOCX con una herramienta ya instalada. Prefiere Pandoc con la plantilla de estilo de la skill:
   `pandoc manual-usuario-<nombre-proyecto>.md --reference-doc="<ruta-skill>/assets/reference.docx" --toc --toc-depth=3 --metadata title="Manual de usuario - [plataforma]" -o manual-usuario-<nombre-proyecto>.docx`
-  La opción `--reference-doc` aplica el diseño (tipografía, colores, títulos, tablas, recuadros y pie de página). Añade la tabla de contenido con `--toc --toc-depth=3` y fija el nombre de la plataforma en las propiedades del documento con `--metadata title`. Si solo hay LibreOffice (`libreoffice --headless --convert-to docx manual-usuario-<nombre-proyecto>.md`), úsalo como respaldo e indica al usuario que el diseño de la plantilla requiere Pandoc. Verifica que `manual-usuario-<nombre-proyecto>.docx` exista, no esté vacío y contenga una sola tabla de contenido. No instales herramientas por tu cuenta.
+  La opción `--reference-doc` aplica el diseño (tipografía, colores, títulos, tablas, recuadros y pie de página). `--toc --toc-depth=3` inserta la tabla de contenido nativa de Word (campo generado desde los estilos de título); no la sustituyas por una lista manual. `--metadata title` fija el nombre de la plataforma en las propiedades del documento. Si solo hay LibreOffice (`libreoffice --headless --convert-to docx manual-usuario-<nombre-proyecto>.md`), úsalo como respaldo e indica al usuario que el diseño de la plantilla y la tabla de contenido nativa requieren Pandoc. Verifica que `manual-usuario-<nombre-proyecto>.docx` exista, no esté vacío y contenga una sola tabla de contenido nativa (campo de índice actualizable), no una lista manual. No instales herramientas por tu cuenta.
 - Si no hay conversor disponible, entrega `manual-usuario-<nombre-proyecto>.md`, indica que falta la conversión a DOCX e incluye el comando exacto para generarlo con la herramienta disponible.
 - Para manuales grandes, crea un archivo por módulo únicamente si el usuario lo solicita o aprueba el alcance.
 - Al finalizar, informa qué se documentó, qué se verificó visualmente, qué archivos se generaron (con la ruta completa de la carpeta de salida) y qué queda pendiente.
