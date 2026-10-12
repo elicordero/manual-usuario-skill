@@ -1,6 +1,6 @@
 ---
 name: manual-usuario
-description: Genera y mantiene manuales de usuario en español para aplicaciones web, especialmente Laravel 13 y Livewire 4. Solicita datos de login cuando el flujo requiere autenticación, analiza flujos reales, documenta pasos, permisos, validaciones, errores frecuentes y usa capturas reales solo cuando exista un navegador automatizado disponible. Redacta en español, salvo que el propio módulo esté en inglés. Guarda la salida fuera del proyecto, en la carpeta manual-usuario-<nombre-proyecto>, y entrega el documento manual-usuario-<nombre-proyecto> en formato DOCX.
+description: Genera y mantiene manuales de usuario en español para aplicaciones web, especialmente Laravel 13 y Livewire 4. Solicita datos de login cuando el flujo requiere autenticación, analiza flujos reales, documenta pasos, permisos, validaciones, errores frecuentes y usa capturas reales solo cuando exista un navegador automatizado disponible. Redacta en español, salvo que el propio módulo esté en inglés. Guarda la salida fuera del proyecto, en la carpeta manual-usuario-<nombre-proyecto>, y entrega el documento manual-usuario-<nombre-proyecto> en formato DOCX con un diseño consistente y legible (plantilla de estilo incluida con la skill).
 compatibility: opencode
 metadata:
   audience: documentation
@@ -71,6 +71,31 @@ El manual incluye una tabla de contenido (índice) que lista cada sección y cad
 - En DOCX, genera el índice real con la opción de tabla de contenido del conversor (por ejemplo, `pandoc --toc --toc-depth=3`) o con el campo de índice de Word/LibreOffice. Prefiere el índice navegable generado por el conversor sobre una lista estática.
 - El índice debe reflejar el contenido final: no incluyas entradas de secciones inexistentes ni omitas secciones presentes. Verifícalo justo antes de entregar.
 
+## Diseño y formato visual
+
+El manual debe verse ordenado y cómodo de leer. Usa siempre la plantilla de estilo incluida con la skill, `assets/reference.docx`, al convertir a DOCX (opción `--reference-doc`). No improvises tipografía ni colores manualmente: la plantilla define un sistema visual único y consistente. El entregable es un DOCX con este diseño, no un documento sin estilo.
+
+Reglas de diseño:
+
+- **Plantilla obligatoria**: convierte con `pandoc --reference-doc=<ruta-skill>/assets/reference.docx`. Localiza la carpeta de la skill instalada para armar esa ruta. Si el archivo no está disponible, avisa al usuario; no inventes estilos sueltos ni entregues un DOCX sin plantilla.
+- **Página**: tamaño A4 y márgenes de 2,5 cm, con pie de página "Página X de Y". No cambies el tamaño ni los márgenes de la plantilla.
+- **Tipografía**: una sola familia para el cuerpo (Calibri) y otra para los títulos (Calibri Light). Cuerpo de 11 pt, interlineado 1,15 y espacio después de cada párrafo. No mezcles familias, no uses texto justificado.
+- **Jerarquía de títulos**: nivel 1 en azul tinta con línea inferior; nivel 2 en azul medio; nivel 3 en gris azulado; nivel 4 en cursiva. Un título nunca debe quedar al final de una página sin su texto (la plantilla ya mantiene el título junto al contenido).
+- **Espaciado y ritmo**: deja aire antes de cada sección (nivel 2) y antes de cada funcionalidad (nivel 3). No amontones párrafos: un párrafo, una idea.
+- **Listas**: listas numeradas para procedimientos y con viñetas para enumeraciones. Una acción por paso.
+- **Recuadros de aviso (callouts)**: destaca mensajes con el recuadro que corresponda, usando el estilo de la plantilla. En Markdown:
+  - Nota informativa: `::: {custom-style="NoteBox"}` y el texto empieza con `**Nota:**`.
+  - Consejo: `::: {custom-style="TipBox"}` y el texto empieza con `**Consejo:**`.
+  - Advertencia: `::: {custom-style="WarnBox"}` y el texto empieza con `**Advertencia:**`.
+  - Importante: `::: {custom-style="ImportantBox"}` y el texto empieza con `**Importante:**`.
+  Usa un recuadro por mensaje y solo cuando aporte; no satures el documento.
+- **Tablas**: la primera fila es el encabezado (la plantilla la colorea y la repite si la tabla cruza de página) y las filas alternan sombreado. Alinea el texto a la izquierda y los números a la derecha.
+- **Figuras y capturas**: centradas, con leyenda breve debajo y numerada ("Figura 3. ..."), sin deformar la imagen. Usa el estilo de leyenda de la plantilla.
+- **Nombres de la interfaz y código**: los nombres de botones, campos y menús van entre comillas; el código, las rutas y los valores van en `monospace` (estilo Verbatim).
+- **Saltos de página**: comienza cada sección principal (nivel 2) en página nueva solo si el manual es largo; nunca dejes un título huérfano.
+- **Tabla de contenido**: una sola, generada por el conversor (`--toc --toc-depth=3`) y con el estilo de la plantilla.
+- **Consistencia**: mismo aspecto en todo el documento. No mezcles estilos, colores ni tamaños distintos entre secciones.
+
 ## Reglas obligatorias
 
 1. Inspecciona el proyecto antes de documentarlo. Identifica framework, rutas, componentes de página, vistas, formularios, permisos y flujos relacionados.
@@ -90,6 +115,9 @@ El manual incluye una tabla de contenido (índice) que lista cada sección y cad
 15. El DOCX debe indicar el nombre de la plataforma correspondiente: en la portada, en el encabezado del documento y en las propiedades del archivo (título). Usa el nombre oficial de la plataforma; no un nombre genérico.
 16. Redacta el manual en español. Solo si el módulo documentado está en inglés, redacta en inglés. No mezcles idiomas dentro del mismo manual ni traduzcas nombres de la interfaz que estén en otro idioma.
 17. El documento generado se llama siempre `manual-usuario-<nombre-proyecto>`: el archivo fuente `manual-usuario-<nombre-proyecto>.md` y el entregable `manual-usuario-<nombre-proyecto>.docx`. Usa ese nombre exacto dentro de la carpeta de salida `manual-usuario-<nombre-proyecto>`; no uses nombres genéricos como `manual.md` ni `manual.docx`.
+18. Convierte siempre a DOCX con la plantilla de estilo de la skill (`assets/reference.docx`) para mantener un diseño consistente y legible (ver "Diseño y formato visual"). No entregues un DOCX sin estilo.
+19. Usa los recuadros de aviso (Nota, Consejo, Advertencia, Importante) para los mensajes destacados, con moderación y una sola idea por recuadro.
+20. Respeta la jerarquía, el espaciado y los colores de la plantilla: no inventes tamaños, familias tipográficas ni estilos, y no mezcles estilos entre secciones.
 
 ## Flujo de trabajo
 
@@ -142,6 +170,8 @@ Si el navegador no está disponible, no instales ni configures nada automáticam
 ### Fase 4: redactar el manual
 
 En modo creación, usa la estructura siguiente. En modo actualización incremental, parte del `manual-usuario-<nombre-proyecto>.md` existente: conserva su estructura y redacta o edita solo las secciones afectadas por las diferencias detectadas.
+
+Aplica el diseño de "Diseño y formato visual" en todo el documento: encabezados jerárquicos, listas de pasos, tablas con encabezado, figuras con leyenda y recuadros de aviso para los mensajes destacados. El resto del texto va como párrafo normal.
 
 Usa esta estructura, adaptándola al tamaño del módulo:
 
@@ -253,6 +283,9 @@ Antes de entregar, verifica:
 - La versión y la revisión coinciden entre portada, encabezado e historial de revisiones, y siguen el esquema de "Versiones y revisiones".
 - La tabla de contenido lista todas las secciones y funcionalidades con su numeración correcta, en el orden del documento, sin entradas de más ni de menos.
 - Los encabezados siguen una jerarquía consistente y cada funcionalidad tiene su propio título específico.
+- El DOCX se generó con la plantilla de estilo de la skill (`assets/reference.docx`) y mantiene un diseño consistente (ver "Diseño y formato visual").
+- La jerarquía de títulos, el espaciado, las listas y los recuadros de aviso siguen la plantilla, sin estilos mezclados.
+- Las tablas usan encabezado coloreado y filas alternas, y las figuras están centradas con leyenda numerada.
 
 ## Fase 6: salida
 
@@ -260,7 +293,9 @@ Antes de entregar, verifica:
 - Conserva el `manual-usuario-<nombre-proyecto>.md` fuente en la misma carpeta de salida. En modo actualización, edita ese archivo en su lugar y regenera el DOCX a partir de él.
 - Si hay capturas reales, guárdalas en `images/` dentro de esa carpeta e insértalas en el DOCX, numeradas y con leyenda breve.
 - Embebe en el DOCX los logotipos y escudos de la portada; guárdalos también en `images/` si el Markdown debe referenciarlos con rutas relativas. No alteres su contenido ni su proporción. La portada debe quedar como la primera página del DOCX.
-- Convierte el Markdown a DOCX con una herramienta ya instalada (por ejemplo `pandoc manual-usuario-<nombre-proyecto>.md --toc --toc-depth=3 --metadata title="Manual de usuario - [plataforma]" -o manual-usuario-<nombre-proyecto>.docx` o `libreoffice --headless --convert-to docx manual-usuario-<nombre-proyecto>.md`). Añade la tabla de contenido al generar el DOCX (por ejemplo, `--toc --toc-depth=3` en Pandoc) y fija el nombre de la plataforma en las propiedades del documento (`--metadata title`). Verifica que `manual-usuario-<nombre-proyecto>.docx` exista, no esté vacío y contenga una sola tabla de contenido. No instales herramientas por tu cuenta.
+- Convierte el Markdown a DOCX con una herramienta ya instalada. Prefiere Pandoc con la plantilla de estilo de la skill:
+  `pandoc manual-usuario-<nombre-proyecto>.md --reference-doc="<ruta-skill>/assets/reference.docx" --toc --toc-depth=3 --metadata title="Manual de usuario - [plataforma]" -o manual-usuario-<nombre-proyecto>.docx`
+  La opción `--reference-doc` aplica el diseño (tipografía, colores, títulos, tablas, recuadros y pie de página). Añade la tabla de contenido con `--toc --toc-depth=3` y fija el nombre de la plataforma en las propiedades del documento con `--metadata title`. Si solo hay LibreOffice (`libreoffice --headless --convert-to docx manual-usuario-<nombre-proyecto>.md`), úsalo como respaldo e indica al usuario que el diseño de la plantilla requiere Pandoc. Verifica que `manual-usuario-<nombre-proyecto>.docx` exista, no esté vacío y contenga una sola tabla de contenido. No instales herramientas por tu cuenta.
 - Si no hay conversor disponible, entrega `manual-usuario-<nombre-proyecto>.md`, indica que falta la conversión a DOCX e incluye el comando exacto para generarlo con la herramienta disponible.
 - Para manuales grandes, crea un archivo por módulo únicamente si el usuario lo solicita o aprueba el alcance.
 - Al finalizar, informa qué se documentó, qué se verificó visualmente, qué archivos se generaron (con la ruta completa de la carpeta de salida) y qué queda pendiente.

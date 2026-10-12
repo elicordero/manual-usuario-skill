@@ -16,6 +16,7 @@ El entregable final es un **DOCX**. El Markdown se usa solo como fuente intermed
 - Genera, siempre que sea posible, una **portada** con el nombre del sistema y sus **logotipos y escudos reales** (tomados del proyecto), sin inventar imágenes.
 - Asigna de forma **automática la versión y la revisión** según los cambios, y mantiene un historial de revisiones.
 - Genera una **tabla de contenido** correcta, con la numeración de cada sección y de cada funcionalidad documentada.
+- Entrega el DOCX con un **diseño cuidado y consistente** (plantilla de estilo incluida): tipografía y jerarquía de títulos, tablas con encabezado, recuadros de aviso (Nota, Consejo, Advertencia, Importante), figuras con leyenda y pie de página numerado.
 - Nunca modifica el código de la aplicación, ni ejecuta acciones destructivas, ni incluye credenciales, secretos o datos personales reales.
 
 Es una skill **bajo demanda**: no se activa durante el trabajo normal de desarrollo.
@@ -27,7 +28,7 @@ Es una skill **bajo demanda**: no se activa durante el trabajo normal de desarro
 3. **Verificar el flujo visual** (si hay URL de pruebas y navegador): pide login, navega sin acciones destructivas y captura pantallas reales.
 4. **Redactar**: crea la portada con logotipos/escudos, versión y revisión, la tabla de contenido, y estructura en objetivo, requisitos de acceso, cómo ingresar, procedimientos (uno por funcionalidad), permisos, errores, FAQ, glosario, pendientes e historial de revisiones.
 5. **Revisar calidad**: comprueba que cada paso exista en el código o interfaz, sin credenciales ni datos sensibles.
-6. **Salida**: genera `manual.md` y lo convierte a `manual.docx`.
+6. **Salida**: genera `manual-usuario-<nombre-proyecto>.md` y lo convierte a `manual-usuario-<nombre-proyecto>.docx` con la plantilla de estilo de la skill.
 
 ## Estructura
 
@@ -35,7 +36,9 @@ Es una skill **bajo demanda**: no se activa durante el trabajo normal de desarro
 .opencode/
 └── skills/
     └── manual-usuario/
-        └── SKILL.md      # instrucciones de la skill
+        ├── SKILL.md               # instrucciones de la skill
+        └── assets/
+            └── reference.docx     # plantilla de estilo para el DOCX
 ```
 
 ## Instalación
@@ -85,15 +88,19 @@ La salida se genera **fuera de la ruta del proyecto**, en una carpeta hermana ll
 
 ## Conversión a DOCX
 
-El DOCX es obligatorio. La skill usa un conversor ya instalado, por ejemplo:
+El DOCX es obligatorio y se genera con la plantilla de estilo de la skill. Prefiere Pandoc:
 
 ```bash
-pandoc manual.md --toc --toc-depth=3 --metadata title="Manual de usuario - [plataforma]" -o manual.docx
-# o
-libreoffice --headless --convert-to docx manual.md
+pandoc manual-usuario-<nombre-proyecto>.md \
+  --reference-doc="<ruta-skill>/assets/reference.docx" \
+  --toc --toc-depth=3 \
+  --metadata title="Manual de usuario - [plataforma]" \
+  -o manual-usuario-<nombre-proyecto>.docx
 ```
 
-La tabla de contenido del DOCX se genera al convertir (`--toc` en Pandoc, o el campo de índice de Word/LibreOffice). En el Markdown queda como lista de enlaces a los encabezados. `--metadata title` fija el nombre de la plataforma en las propiedades del documento.
+`--reference-doc` aplica el diseño (tipografía, colores, jerarquía de títulos, tablas, recuadros de aviso y pie de página numerado). La tabla de contenido se genera al convertir (`--toc` en Pandoc, o el campo de índice de Word/LibreOffice). En el Markdown queda como lista de enlaces a los encabezados. `--metadata title` fija el nombre de la plataforma en las propiedades del documento.
+
+Si solo hay LibreOffice (`libreoffice --headless --convert-to docx manual-usuario-<nombre-proyecto>.md`), úsalo como respaldo: el diseño de la plantilla requiere Pandoc.
 
 Si no hay conversor disponible, entrega `manual.md` e indica el comando exacto para generar el DOCX. La skill no instala herramientas por su cuenta.
 
