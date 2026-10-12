@@ -11,16 +11,20 @@ El entregable final es un **DOCX**. El Markdown se usa solo como fuente intermed
 - Verifica flujos visuales con navegador automatizado solo si ya está configurado (Playwright MCP u otro); usa capturas reales, nunca inventadas.
 - Solicita los datos de login de prueba (URL, usuario y contraseña) cuando el flujo requiere autenticación, y nunca los guarda ni los incluye en el manual.
 - Genera la salida **fuera del proyecto**, en una carpeta hermana llamada `manual-usuario-<nombre-proyecto>`.
+- **Retoma el manual existente**: si ya existe un manual previo en la carpeta de salida, lo actualiza de forma incremental (solo las partes desactualizadas); si no existe, lo crea desde cero.
+- Genera, siempre que sea posible, una **portada** con el nombre del sistema y sus **logotipos y escudos reales** (tomados del proyecto), sin inventar imágenes.
+- Asigna de forma **automática la versión y la revisión** según los cambios, y mantiene un historial de revisiones.
+- Genera una **tabla de contenido** correcta, con la numeración de cada sección y de cada funcionalidad documentada.
 - Nunca modifica el código de la aplicación, ni ejecuta acciones destructivas, ni incluye credenciales, secretos o datos personales reales.
 
 Es una skill **bajo demanda**: no se activa durante el trabajo normal de desarrollo.
 
 ## Cómo funciona
 
-1. **Delimitar**: confirma aplicación, módulo, público, entorno autorizado, datos de login (si aplican), carpeta de salida y formato.
-2. **Inspeccionar el código**: revisa rutas, componentes, vistas, middleware, Policies/Gates, Requests/validaciones, menús y traducciones.
+1. **Delimitar**: confirma aplicación, módulo, público, entorno autorizado, datos de login (si aplican), carpeta de salida y formato. Detecta si ya existe un manual previo para elegir entre creación desde cero o actualización incremental.
+2. **Inspeccionar el código**: revisa rutas, componentes, vistas, middleware, Policies/Gates, Requests/validaciones, menús, traducciones y los logotipos/escudos del sistema. En modo actualización, compara contra el manual existente y detecta solo las diferencias.
 3. **Verificar el flujo visual** (si hay URL de pruebas y navegador): pide login, navega sin acciones destructivas y captura pantallas reales.
-4. **Redactar**: estructura en objetivo, requisitos de acceso, cómo ingresar, procedimientos, permisos, errores, FAQ, glosario y pendientes.
+4. **Redactar**: crea la portada con logotipos/escudos, versión y revisión, la tabla de contenido, y estructura en objetivo, requisitos de acceso, cómo ingresar, procedimientos (uno por funcionalidad), permisos, errores, FAQ, glosario, pendientes e historial de revisiones.
 5. **Revisar calidad**: comprueba que cada paso exista en el código o interfaz, sin credenciales ni datos sensibles.
 6. **Salida**: genera `manual.md` y lo convierte a `manual.docx`.
 
@@ -83,10 +87,12 @@ La salida se genera **fuera de la ruta del proyecto**, en una carpeta hermana ll
 El DOCX es obligatorio. La skill usa un conversor ya instalado, por ejemplo:
 
 ```bash
-pandoc manual.md -o manual.docx
+pandoc manual.md --toc --toc-depth=3 -o manual.docx
 # o
 libreoffice --headless --convert-to docx manual.md
 ```
+
+La tabla de contenido del DOCX se genera al convertir (`--toc` en Pandoc, o el campo de índice de Word/LibreOffice). En el Markdown queda como lista de enlaces a los encabezados.
 
 Si no hay conversor disponible, entrega `manual.md` e indica el comando exacto para generar el DOCX. La skill no instala herramientas por su cuenta.
 
