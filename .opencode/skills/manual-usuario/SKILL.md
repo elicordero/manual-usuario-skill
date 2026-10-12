@@ -85,6 +85,7 @@ El manual incluye una tabla de contenido (índice) que lista cada sección y cad
 12. Genera siempre que sea posible una portada con el nombre del sistema, sus logotipos y escudos oficiales, el módulo, la versión, la revisión, la fecha y el público objetivo. Usa solo logotipos reales del proyecto; si no hay, pídelos o deja un marcador y anótalo en pendientes.
 13. Asigna automáticamente la versión y la revisión según "Versiones y revisiones", y mantén el historial de revisiones. La versión y la revisión deben aparecer en la portada y en el encabezado, y coincidir entre sí.
 14. Incluye una tabla de contenido (índice) que liste cada sección y cada funcionalidad con su numeración y en el orden real del documento, con encabezados jerárquicos consistentes. En DOCX, usa el índice navegable del conversor cuando esté disponible. Verifica que el índice coincida con el contenido final.
+15. El DOCX debe indicar el nombre de la plataforma correspondiente: en la portada, en el encabezado del documento y en las propiedades del archivo (título). Usa el nombre oficial de la plataforma; no un nombre genérico.
 
 ## Flujo de trabajo
 
@@ -93,6 +94,7 @@ El manual incluye una tabla de contenido (índice) que lista cada sección y cad
 Primero determina la carpeta de salida y comprueba si ya existe un manual previo (`manual.md` o `manual.docx`) para decidir entre creación desde cero o actualización incremental (ver "Modos de trabajo"). En modo actualización, lee el manual existente y úsalo como base.
 
 Determina:
+- Nombre de la plataforma o sistema (nombre oficial que aparecerá en el manual). Obténlo del proyecto (por ejemplo, `config/app.php`, `.env`, `composer.json`, títulos de layout, `<title>` de las vistas) o pregúntalo al usuario si no es claro.
 - Aplicación y módulo.
 - Perfil del lector (por ejemplo, operador, administrador o ciudadano).
 - Tareas que debe poder completar.
@@ -143,15 +145,17 @@ Usa esta estructura, adaptándola al tamaño del módulo:
 
 Genera siempre que sea posible una portada como primera página del DOCX:
 
-- Nombre del sistema o institución.
+- Nombre de la plataforma o sistema, completo y oficial.
+- Nombre de la institución, si aplica.
 - Logotipos y escudos oficiales del sistema (uno o varios), centrados (ver "Portada y logotipos").
 - Nombre del módulo documentado.
 - Versión y Revisión (ver "Versiones y revisiones").
 - Fecha de revisión.
 - Público objetivo.
 
-# Manual de usuario: [nombre del módulo]
+# Manual de usuario: [nombre de la plataforma]
 
+- Plataforma:
 - Aplicación:
 - Módulo:
 - Público objetivo:
@@ -159,6 +163,8 @@ Genera siempre que sea posible una portada como primera página del DOCX:
 - Revisión: [n]
 - Fecha de revisión:
 - Estado de verificación: código revisado / interfaz verificada / parcialmente verificado
+
+Muestra siempre el nombre de la plataforma en la portada y en el encabezado del documento, además de en las propiedades del DOCX (ver Fase 6). No uses un nombre genérico si el nombre oficial es conocido.
 
 ## Tabla de contenido
 Lista navegable con la numeración de cada sección y de cada funcionalidad, en el orden real del documento (ver "Tabla de contenido"). Debe incluir todas las funcionalidades, no solo las secciones principales.
@@ -235,6 +241,7 @@ Antes de entregar, verifica:
 - En modo actualización, solo cambiaron las secciones afectadas; el resto conserva el contenido y las capturas válidas previas.
 - En modo actualización, los cambios realizados quedaron listados para el usuario.
 - La portada incluye los logotipos/escudos reales del sistema o, si no había, un marcador anotado en pendientes.
+- El nombre de la plataforma aparece en la portada, en el encabezado y en las propiedades del DOCX, con el nombre oficial.
 - La versión y la revisión coinciden entre portada, encabezado e historial de revisiones, y siguen el esquema de "Versiones y revisiones".
 - La tabla de contenido lista todas las secciones y funcionalidades con su numeración correcta, en el orden del documento, sin entradas de más ni de menos.
 - Los encabezados siguen una jerarquía consistente y cada funcionalidad tiene su propio título específico.
@@ -245,7 +252,7 @@ Antes de entregar, verifica:
 - Conserva el `manual.md` fuente en la misma carpeta de salida. En modo actualización, edita ese archivo en su lugar y regenera el DOCX a partir de él.
 - Si hay capturas reales, guárdalas en `images/` dentro de esa carpeta e insértalas en el DOCX, numeradas y con leyenda breve.
 - Embebe en el DOCX los logotipos y escudos de la portada; guárdalos también en `images/` si el Markdown debe referenciarlos con rutas relativas. No alteres su contenido ni su proporción.
-- Convierte el Markdown a DOCX con una herramienta ya instalada (por ejemplo `pandoc manual.md --toc --toc-depth=3 -o manual.docx` o `libreoffice --headless --convert-to docx manual.md`). Añade la tabla de contenido al generar el DOCX (por ejemplo, `--toc --toc-depth=3` en Pandoc). Verifica que `manual.docx` exista, no esté vacío y contenga el índice. No instales herramientas por tu cuenta.
+- Convierte el Markdown a DOCX con una herramienta ya instalada (por ejemplo `pandoc manual.md --toc --toc-depth=3 --metadata title="Manual de usuario - [plataforma]" -o manual.docx` o `libreoffice --headless --convert-to docx manual.md`). Añade la tabla de contenido al generar el DOCX (por ejemplo, `--toc --toc-depth=3` en Pandoc) y fija el nombre de la plataforma en las propiedades del documento (`--metadata title`). Verifica que `manual.docx` exista, no esté vacío y contenga el índice. No instales herramientas por tu cuenta.
 - Si no hay conversor disponible, entrega `manual.md`, indica que falta la conversión a DOCX e incluye el comando exacto para generarlo con la herramienta disponible.
 - Para manuales grandes, crea un archivo por módulo únicamente si el usuario lo solicita o aprueba el alcance.
 - Al finalizar, informa qué se documentó, qué se verificó visualmente, qué archivos se generaron (con la ruta completa de la carpeta de salida) y qué queda pendiente.

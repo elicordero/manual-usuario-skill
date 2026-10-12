@@ -12,6 +12,7 @@ El entregable final es un **DOCX**. El Markdown se usa solo como fuente intermed
 - Solicita los datos de login de prueba (URL, usuario y contraseña) cuando el flujo requiere autenticación, y nunca los guarda ni los incluye en el manual.
 - Genera la salida **fuera del proyecto**, en una carpeta hermana llamada `manual-usuario-<nombre-proyecto>`.
 - **Retoma el manual existente**: si ya existe un manual previo en la carpeta de salida, lo actualiza de forma incremental (solo las partes desactualizadas); si no existe, lo crea desde cero.
+- Indica el **nombre de la plataforma** en la portada, el encabezado y las propiedades del DOCX.
 - Genera, siempre que sea posible, una **portada** con el nombre del sistema y sus **logotipos y escudos reales** (tomados del proyecto), sin inventar imágenes.
 - Asigna de forma **automática la versión y la revisión** según los cambios, y mantiene un historial de revisiones.
 - Genera una **tabla de contenido** correcta, con la numeración de cada sección y de cada funcionalidad documentada.
@@ -21,7 +22,7 @@ Es una skill **bajo demanda**: no se activa durante el trabajo normal de desarro
 
 ## Cómo funciona
 
-1. **Delimitar**: confirma aplicación, módulo, público, entorno autorizado, datos de login (si aplican), carpeta de salida y formato. Detecta si ya existe un manual previo para elegir entre creación desde cero o actualización incremental.
+1. **Delimitar**: confirma el nombre de la plataforma, aplicación, módulo, público, entorno autorizado, datos de login (si aplican), carpeta de salida y formato. Detecta si ya existe un manual previo para elegir entre creación desde cero o actualización incremental.
 2. **Inspeccionar el código**: revisa rutas, componentes, vistas, middleware, Policies/Gates, Requests/validaciones, menús, traducciones y los logotipos/escudos del sistema. En modo actualización, compara contra el manual existente y detecta solo las diferencias.
 3. **Verificar el flujo visual** (si hay URL de pruebas y navegador): pide login, navega sin acciones destructivas y captura pantallas reales.
 4. **Redactar**: crea la portada con logotipos/escudos, versión y revisión, la tabla de contenido, y estructura en objetivo, requisitos de acceso, cómo ingresar, procedimientos (uno por funcionalidad), permisos, errores, FAQ, glosario, pendientes e historial de revisiones.
@@ -87,12 +88,12 @@ La salida se genera **fuera de la ruta del proyecto**, en una carpeta hermana ll
 El DOCX es obligatorio. La skill usa un conversor ya instalado, por ejemplo:
 
 ```bash
-pandoc manual.md --toc --toc-depth=3 -o manual.docx
+pandoc manual.md --toc --toc-depth=3 --metadata title="Manual de usuario - [plataforma]" -o manual.docx
 # o
 libreoffice --headless --convert-to docx manual.md
 ```
 
-La tabla de contenido del DOCX se genera al convertir (`--toc` en Pandoc, o el campo de índice de Word/LibreOffice). En el Markdown queda como lista de enlaces a los encabezados.
+La tabla de contenido del DOCX se genera al convertir (`--toc` en Pandoc, o el campo de índice de Word/LibreOffice). En el Markdown queda como lista de enlaces a los encabezados. `--metadata title` fija el nombre de la plataforma en las propiedades del documento.
 
 Si no hay conversor disponible, entrega `manual.md` e indica el comando exacto para generar el DOCX. La skill no instala herramientas por su cuenta.
 
