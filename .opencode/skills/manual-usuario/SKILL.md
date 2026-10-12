@@ -1,6 +1,6 @@
 ---
 name: manual-usuario
-description: Genera y mantiene manuales de usuario en español para aplicaciones web, especialmente Laravel 13 y Livewire 4. Solicita datos de login cuando el flujo requiere autenticación, analiza flujos reales, documenta pasos, permisos, validaciones, errores frecuentes y usa capturas reales solo cuando exista un navegador automatizado disponible. Guarda la salida fuera del proyecto, en la carpeta manual-usuario-<nombre-proyecto>, y entrega el resultado en formato DOCX.
+description: Genera y mantiene manuales de usuario en español para aplicaciones web, especialmente Laravel 13 y Livewire 4. Solicita datos de login cuando el flujo requiere autenticación, analiza flujos reales, documenta pasos, permisos, validaciones, errores frecuentes y usa capturas reales solo cuando exista un navegador automatizado disponible. Redacta en español, salvo que el propio módulo esté en inglés. Guarda la salida fuera del proyecto, en la carpeta manual-usuario-<nombre-proyecto>, y entrega el documento manual-usuario-<nombre-proyecto> en formato DOCX.
 compatibility: opencode
 metadata:
   audience: documentation
@@ -13,13 +13,15 @@ metadata:
 
 ## Objetivo
 
-Crear manuales funcionales, precisos y mantenibles para usuarios finales. Prioriza lo que una persona necesita hacer en la interfaz, no una explicación del código fuente. El idioma predeterminado es español claro, formal y neutral.
+Crear manuales funcionales, precisos y mantenibles para usuarios finales. Prioriza lo que una persona necesita hacer en la interfaz, no una explicación del código fuente.
+
+Idioma: redacta siempre en español claro, formal y neutral. Única excepción: si el módulo documentado está en inglés (por ejemplo, su interfaz, sus etiquetas o su código), redacta el manual en inglés para que coincida con la interfaz. No mezcles idiomas dentro de un mismo manual.
 
 Esta skill es bajo demanda. No generes ni actualices documentación durante tareas normales de desarrollo si el usuario no lo solicita.
 
 ## Modos de trabajo
 
-Antes de crear nada, determina la carpeta de salida `manual-usuario-<nombre-proyecto>` y comprueba si ya contiene un manual previo (`manual.md` y/o `manual.docx`). Elige el modo:
+Antes de crear nada, determina la carpeta de salida `manual-usuario-<nombre-proyecto>` y comprueba si ya contiene un manual previo (`manual-usuario-<nombre-proyecto>.md` y/o `manual-usuario-<nombre-proyecto>.docx`). Elige el modo:
 
 - **Creación desde cero**: no existe un manual previo para ese proyecto o módulo. Sigue el flujo completo de las fases 1 a 6.
 - **Actualización incremental**: ya existe un manual previo. Retómalo y actualiza únicamente las partes desactualizadas. No regeneres el manual completo ni reescribas lo que sigue siendo válido.
@@ -32,7 +34,7 @@ Reglas del modo actualización incremental:
 4. Agrega secciones nuevas solo si el proyecto incorporó funciones que el manual aún no cubre.
 5. Marca en la sección correspondiente o en los pendientes qué se actualizó y qué cambió.
 6. Si el manual existente está completo y vigente, no lo reescribas: informa que no requiere cambios.
-7. Conserva el `manual.md` fuente y regenera `manual.docx` a partir del Markdown actualizado.
+7. Conserva el `manual-usuario-<nombre-proyecto>.md` fuente y regenera `manual-usuario-<nombre-proyecto>.docx` a partir del Markdown actualizado.
 
 Si el usuario ya indica el modo o un archivo concreto, respétalo sin preguntar.
 
@@ -51,7 +53,7 @@ Todo manual lleva un número de versión, un número de revisión y un historial
 
 ## Portada y logotipos
 
-Genera siempre que sea posible una portada como primera página del manual (sección "Portada" de la fase 4). Incluye los logotipos y escudos oficiales del sistema, obtenidos del propio proyecto.
+La portada es siempre la primera página del manual. Genera siempre que sea posible una portada como primera página del documento (sección "Portada" de la fase 4). Incluye los logotipos y escudos oficiales del sistema, obtenidos del propio proyecto.
 
 - Busca los recursos de marca en el proyecto (por ejemplo, `public/images`, `public/img`, `resources/images`, `assets` o carpetas similares), con nombres como `logo`, `escudo`, `isotipo`, `marca`, `simbolo`, `brand`, en formatos `.svg`, `.png`, `.jpg` o `.webp`.
 - Prefiere el `.svg` o la imagen de mayor resolución. Inserta sin deformar y con tamaño legible.
@@ -60,7 +62,7 @@ Genera siempre que sea posible una portada como primera página del manual (secc
 
 ## Tabla de contenido
 
-El manual incluye una tabla de contenido (índice) que lista cada sección y cada funcionalidad documentada, con su numeración.
+El manual incluye una tabla de contenido (índice) que lista cada sección y cada funcionalidad documentada, con su numeración. Solo debe existir una tabla de contenido por manual: no dupliques el índice, no agregues un índice por sección ni repitas el índice dentro del DOCX ni en el encabezado.
 
 - Usa una jerarquía de encabezados consistente: el título general es el nivel 1 (`#`), las secciones usan nivel 2 (`##`) numerado, y las funcionalidades y subsecciones usan nivel 3 (`###`) numerado (por ejemplo, `### 4.1 Registrar una inspección`).
 - Da a cada funcionalidad o procedimiento su propio encabezado con un título específico y descriptivo, no genérico, para que aparezca de forma identificable en el índice.
@@ -82,16 +84,18 @@ El manual incluye una tabla de contenido (índice) que lista cada sección y cad
 9. Genera el manual fuera de la ruta del proyecto, nunca dentro de su árbol de directorios. Usa como carpeta de salida `manual-usuario-<nombre-proyecto>`, ubicada como hermana del directorio raíz del proyecto (por ejemplo, `..\manual-usuario-<nombre-proyecto>` en Windows o `../manual-usuario-<nombre-proyecto>` en Linux/macOS). `<nombre-proyecto>` es el nombre de la carpeta raíz del proyecto o, si existe, el nombre del paquete de `composer.json`. Si el usuario indica otra carpeta, respétala siempre que esté fuera del proyecto. No generes archivos adicionales fuera de esa carpeta.
 10. Antes de documentar, pregunta solo por los datos esenciales que falten: público objetivo, módulo/flujo que se documentará, entorno autorizado, datos de login (si el flujo requiere autenticación), formato final y carpeta de salida (solo si el usuario quiere una distinta a la predeterminada). Si la solicitud ya los aclara, continúa sin preguntas innecesarias.
 11. Antes de crear, comprueba si ya existe un manual previo en la carpeta de salida. Si existe, retómalo y actualiza solo las partes desactualizadas (actualización incremental). Si no existe, créalo desde cero. No sobrescribas un manual vigente sin cambios.
-12. Genera siempre que sea posible una portada con el nombre del sistema, sus logotipos y escudos oficiales, el módulo, la versión, la revisión, la fecha y el público objetivo. Usa solo logotipos reales del proyecto; si no hay, pídelos o deja un marcador y anótalo en pendientes.
+12. La portada es siempre la primera página del manual. Genera siempre que sea posible una portada con el nombre del sistema, sus logotipos y escudos oficiales, el módulo, la versión, la revisión, la fecha y el público objetivo. Usa solo logotipos reales del proyecto; si no hay, pídelos o deja un marcador y anótalo en pendientes.
 13. Asigna automáticamente la versión y la revisión según "Versiones y revisiones", y mantén el historial de revisiones. La versión y la revisión deben aparecer en la portada y en el encabezado, y coincidir entre sí.
-14. Incluye una tabla de contenido (índice) que liste cada sección y cada funcionalidad con su numeración y en el orden real del documento, con encabezados jerárquicos consistentes. En DOCX, usa el índice navegable del conversor cuando esté disponible. Verifica que el índice coincida con el contenido final.
+14. Incluye una sola tabla de contenido (índice) que liste cada sección y cada funcionalidad con su numeración y en el orden real del documento, con encabezados jerárquicos consistentes. Solo debe existir una tabla de contenido por manual; no la dupliques ni la repitas por sección. En DOCX, usa el índice navegable del conversor cuando esté disponible. Verifica que el índice coincida con el contenido final.
 15. El DOCX debe indicar el nombre de la plataforma correspondiente: en la portada, en el encabezado del documento y en las propiedades del archivo (título). Usa el nombre oficial de la plataforma; no un nombre genérico.
+16. Redacta el manual en español. Solo si el módulo documentado está en inglés, redacta en inglés. No mezcles idiomas dentro del mismo manual ni traduzcas nombres de la interfaz que estén en otro idioma.
+17. El documento generado se llama siempre `manual-usuario-<nombre-proyecto>`: el archivo fuente `manual-usuario-<nombre-proyecto>.md` y el entregable `manual-usuario-<nombre-proyecto>.docx`. Usa ese nombre exacto dentro de la carpeta de salida `manual-usuario-<nombre-proyecto>`; no uses nombres genéricos como `manual.md` ni `manual.docx`.
 
 ## Flujo de trabajo
 
 ### Fase 1: delimitar el manual
 
-Primero determina la carpeta de salida y comprueba si ya existe un manual previo (`manual.md` o `manual.docx`) para decidir entre creación desde cero o actualización incremental (ver "Modos de trabajo"). En modo actualización, lee el manual existente y úsalo como base.
+Primero determina la carpeta de salida y comprueba si ya existe un manual previo (`manual-usuario-<nombre-proyecto>.md` o `manual-usuario-<nombre-proyecto>.docx`) para decidir entre creación desde cero o actualización incremental (ver "Modos de trabajo"). En modo actualización, lee el manual existente y úsalo como base.
 
 Determina:
 - Nombre de la plataforma o sistema (nombre oficial que aparecerá en el manual). Obténlo del proyecto (por ejemplo, `config/app.php`, `.env`, `composer.json`, títulos de layout, `<title>` de las vistas) o pregúntalo al usuario si no es claro.
@@ -137,13 +141,13 @@ Si el navegador no está disponible, no instales ni configures nada automáticam
 
 ### Fase 4: redactar el manual
 
-En modo creación, usa la estructura siguiente. En modo actualización incremental, parte del `manual.md` existente: conserva su estructura y redacta o edita solo las secciones afectadas por las diferencias detectadas.
+En modo creación, usa la estructura siguiente. En modo actualización incremental, parte del `manual-usuario-<nombre-proyecto>.md` existente: conserva su estructura y redacta o edita solo las secciones afectadas por las diferencias detectadas.
 
 Usa esta estructura, adaptándola al tamaño del módulo:
 
 ### Portada (primera página)
 
-Genera siempre que sea posible una portada como primera página del DOCX:
+La portada es siempre la primera página del DOCX:
 
 - Nombre de la plataforma o sistema, completo y oficial.
 - Nombre de la institución, si aplica.
@@ -167,7 +171,7 @@ Genera siempre que sea posible una portada como primera página del DOCX:
 Muestra siempre el nombre de la plataforma en la portada y en el encabezado del documento, además de en las propiedades del DOCX (ver Fase 6). No uses un nombre genérico si el nombre oficial es conocido.
 
 ## Tabla de contenido
-Lista navegable con la numeración de cada sección y de cada funcionalidad, en el orden real del documento (ver "Tabla de contenido"). Debe incluir todas las funcionalidades, no solo las secciones principales.
+Lista navegable con la numeración de cada sección y de cada funcionalidad, en el orden real del documento (ver "Tabla de contenido"). Debe incluir todas las funcionalidades, no solo las secciones principales. Es la única tabla de contenido del manual: no la repitas ni agregues índices por sección.
 
 ## 1. Objetivo
 Explica en lenguaje sencillo para qué sirve el módulo.
@@ -231,7 +235,11 @@ Antes de entregar, verifica:
 - Los campos y permisos no fueron inferidos sin evidencia.
 - Las capturas existen, corresponden a la versión documentada y no contienen información sensible.
 - Las imágenes quedan embebidas en el DOCX o referenciadas con rutas relativas en el Markdown.
-- El archivo `manual.docx` se generó y no está vacío.
+- El archivo `manual-usuario-<nombre-proyecto>.docx` se generó y no está vacío.
+- El documento generado se llama `manual-usuario-<nombre-proyecto>` (`.md` y `.docx`), no un nombre genérico.
+- La portada es la primera página del manual.
+- Existe una sola tabla de contenido por manual, sin índices duplicados ni repetidos por sección.
+- El manual está redactado en español, o en inglés solo si el módulo documentado está en inglés, sin mezclar idiomas.
 - No hay credenciales, secretos ni datos reales sensibles.
 - Las secciones pendientes están claramente marcadas.
 - El manual no contradice mensajes o validaciones observados.
@@ -248,12 +256,12 @@ Antes de entregar, verifica:
 
 ## Fase 6: salida
 
-- Genera el archivo final `manual.docx` en la carpeta de salida. El DOCX es el entregable obligatorio. Mantén la salida fuera de la ruta del proyecto (carpeta por defecto `manual-usuario-<nombre-proyecto>`, hermana del directorio raíz). Nunca escribas la salida dentro del proyecto.
-- Conserva el `manual.md` fuente en la misma carpeta de salida. En modo actualización, edita ese archivo en su lugar y regenera el DOCX a partir de él.
+- Genera el archivo final `manual-usuario-<nombre-proyecto>.docx` en la carpeta de salida. El DOCX es el entregable obligatorio. Mantén la salida fuera de la ruta del proyecto (carpeta por defecto `manual-usuario-<nombre-proyecto>`, hermana del directorio raíz). Nunca escribas la salida dentro del proyecto.
+- Conserva el `manual-usuario-<nombre-proyecto>.md` fuente en la misma carpeta de salida. En modo actualización, edita ese archivo en su lugar y regenera el DOCX a partir de él.
 - Si hay capturas reales, guárdalas en `images/` dentro de esa carpeta e insértalas en el DOCX, numeradas y con leyenda breve.
-- Embebe en el DOCX los logotipos y escudos de la portada; guárdalos también en `images/` si el Markdown debe referenciarlos con rutas relativas. No alteres su contenido ni su proporción.
-- Convierte el Markdown a DOCX con una herramienta ya instalada (por ejemplo `pandoc manual.md --toc --toc-depth=3 --metadata title="Manual de usuario - [plataforma]" -o manual.docx` o `libreoffice --headless --convert-to docx manual.md`). Añade la tabla de contenido al generar el DOCX (por ejemplo, `--toc --toc-depth=3` en Pandoc) y fija el nombre de la plataforma en las propiedades del documento (`--metadata title`). Verifica que `manual.docx` exista, no esté vacío y contenga el índice. No instales herramientas por tu cuenta.
-- Si no hay conversor disponible, entrega `manual.md`, indica que falta la conversión a DOCX e incluye el comando exacto para generarlo con la herramienta disponible.
+- Embebe en el DOCX los logotipos y escudos de la portada; guárdalos también en `images/` si el Markdown debe referenciarlos con rutas relativas. No alteres su contenido ni su proporción. La portada debe quedar como la primera página del DOCX.
+- Convierte el Markdown a DOCX con una herramienta ya instalada (por ejemplo `pandoc manual-usuario-<nombre-proyecto>.md --toc --toc-depth=3 --metadata title="Manual de usuario - [plataforma]" -o manual-usuario-<nombre-proyecto>.docx` o `libreoffice --headless --convert-to docx manual-usuario-<nombre-proyecto>.md`). Añade la tabla de contenido al generar el DOCX (por ejemplo, `--toc --toc-depth=3` en Pandoc) y fija el nombre de la plataforma en las propiedades del documento (`--metadata title`). Verifica que `manual-usuario-<nombre-proyecto>.docx` exista, no esté vacío y contenga una sola tabla de contenido. No instales herramientas por tu cuenta.
+- Si no hay conversor disponible, entrega `manual-usuario-<nombre-proyecto>.md`, indica que falta la conversión a DOCX e incluye el comando exacto para generarlo con la herramienta disponible.
 - Para manuales grandes, crea un archivo por módulo únicamente si el usuario lo solicita o aprueba el alcance.
 - Al finalizar, informa qué se documentó, qué se verificó visualmente, qué archivos se generaron (con la ruta completa de la carpeta de salida) y qué queda pendiente.
 
@@ -264,4 +272,4 @@ Esta skill se puede invocar desde OpenCode con `/manual-usuario` o mencionando `
 Ejemplos:
 - “@manual-usuario documenta el módulo de activos para el perfil de administrador. Genera el DOCX; no modifiques la aplicación.”
 - “/manual-usuario crea el manual del flujo de creación de trámites. Usa solo capturas reales del entorno de pruebas.”
-- “Actualiza el manual del módulo de inspecciones comparando el código actual con `../manual-usuario-<nombre-proyecto>/manual.md`. Modifica únicamente los archivos del manual.”
+- “Actualiza el manual del módulo de inspecciones comparando el código actual con `../manual-usuario-<nombre-proyecto>/manual-usuario-<nombre-proyecto>.md`. Modifica únicamente los archivos del manual.”
